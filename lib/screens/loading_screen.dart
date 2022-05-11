@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:weather_report/services/location.dart';
+import 'package:weather_report/services/networking.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({Key? key}) : super(key: key);
@@ -9,16 +10,26 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  void getPosition() async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.lowest);
-    print(position);
+  void getCurrentLocation() async {
+    Location location = Location();
+    await location.getCurrentLocation();
+
+    Networking networking = Networking(
+      location.getLatitude(),
+      location.getLongitude(),
+    );
+
+    WeatherData weatherData = await networking.getData();
+    print(
+      (weatherData.temperature - 273.15).toStringAsFixed(0),
+    );
+    print(weatherData.name);
   }
 
   @override
   void initState() {
     super.initState();
-    getPosition();
+    getCurrentLocation();
   }
 
   @override
