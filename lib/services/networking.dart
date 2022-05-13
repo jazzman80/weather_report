@@ -19,10 +19,11 @@ class Networking {
       var decoded = jsonDecode(_response.body);
       double temperatureAsDouble = decoded['main']['temp'];
       int weatherId = decoded['weather'][0]['id'];
+      print(weatherId);
       return WeatherData(
         temperature: temperatureAsDouble.toStringAsFixed(0),
         name: decoded['name'],
-        icon: getWeatherIcon(200),
+        icon: getWeatherIcon(weatherId),
       );
     } else {
       return WeatherData(
@@ -34,22 +35,22 @@ class Networking {
   }
 
   String getWeatherIcon(int weatherId) {
-    if (weatherId >= 200) {
+    if (weatherId < 299) {
       return '⛈';
-    } else if (weatherId >= 300) {
+    } else if (weatherId < 499) {
       return '🌦️';
-    } else if (weatherId >= 500) {
+    } else if (weatherId < 599) {
       return '🌧️';
-    } else if (weatherId >= 600) {
+    } else if (weatherId < 699) {
       return '❄';
-    } else if (weatherId >= 700) {
+    } else if (weatherId < 799) {
       return '🌫️';
-    } else if (weatherId >= 801) {
-      return '🌤️';
-    } else if (weatherId >= 803) {
-      return '☁';
-    } else {
+    } else if (weatherId == 800) {
       return '☀️';
+    } else if (weatherId < 803) {
+      return '🌤️';
+    } else {
+      return '☁';
     }
   }
 }

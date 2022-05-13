@@ -10,8 +10,14 @@ class WeatherReportApplication extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        inputDecorationTheme: InputDecorationTheme(
+          fillColor: Theme.of(context).colorScheme.background,
+          border: OutlineInputBorder(),
+        ),
+      ),
       home: LoadingScreen(),
     );
   }
