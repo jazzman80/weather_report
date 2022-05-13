@@ -61,9 +61,18 @@ class _LocationScreenState extends State<LocationScreen> {
         ),
       ),
       body: Card(
-        child: Text(
-          '${_weatherData.temperature}°${_weatherData.icon}',
-          style: Theme.of(context).textTheme.displayLarge,
+        child: Row(
+          children: [
+            Text(
+              '${_weatherData.temperature}°',
+              style: Theme.of(context).textTheme.displayLarge,
+            ),
+            Icon(
+              _weatherData.icon,
+              size: 100.0,
+              color: Colors.grey,
+            ),
+          ],
         ),
       ),
     );

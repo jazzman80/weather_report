@@ -14,6 +14,7 @@ class CityScreen extends StatelessWidget {
         child: TextField(
           decoration: InputDecoration(
             icon: Icon(Icons.location_city),
+            hintText: 'Enter city name',
           ),
           onEditingComplete: () {},
         ),

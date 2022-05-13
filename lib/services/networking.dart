@@ -29,28 +29,28 @@ class Networking {
       return WeatherData(
         temperature: '100.0',
         name: 'Moscow',
-        icon: '☀',
+        icon: Icons.cloud,
       );
     }
   }
 
-  String getWeatherIcon(int weatherId) {
+  IconData getWeatherIcon(int weatherId) {
     if (weatherId < 299) {
-      return '⛈';
+      return Icons.bolt;
     } else if (weatherId < 499) {
-      return '🌦️';
+      return Icons.water_drop;
     } else if (weatherId < 599) {
-      return '🌧️';
+      return Icons.water_drop;
     } else if (weatherId < 699) {
-      return '❄';
+      return Icons.cloudy_snowing;
     } else if (weatherId < 799) {
-      return '🌫️';
+      return Icons.lens_blur_outlined;
     } else if (weatherId == 800) {
-      return '☀️';
+      return Icons.sunny;
     } else if (weatherId < 803) {
-      return '🌤️';
+      return Icons.wb_cloudy_outlined;
     } else {
-      return '☁';
+      return Icons.wb_cloudy;
     }
   }
 }
@@ -58,7 +58,7 @@ class Networking {
 class WeatherData {
   final String temperature;
   final String name;
-  final String icon;
+  final IconData icon;
 
   WeatherData({
     required this.temperature,
