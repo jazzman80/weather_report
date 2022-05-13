@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:weather_report/services/location.dart';
 import 'package:weather_report/services/networking.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'location_screen.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({Key? key}) : super(key: key);
@@ -21,10 +22,15 @@ class _LoadingScreenState extends State<LoadingScreen> {
     );
 
     WeatherData weatherData = await networking.getData();
-    print(
-      (weatherData.temperature - 273.15).toStringAsFixed(0),
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LocationScreen(
+          weatherData: weatherData,
+        ),
+      ),
     );
-    print(weatherData.name);
   }
 
   @override
