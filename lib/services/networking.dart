@@ -2,24 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:weather_report/utilities/constants.dart';
 import 'dart:convert';
+import 'package:weather_report/services/weather_data.dart';
 
 class Networking {
-  http.Response _response = http.Response('body', 200);
-  final double _latitude;
-  final double _longitude;
-
-  Networking(this._latitude, this._longitude);
-
-  Future<WeatherData> getData() async {
-    Uri _url = Uri.parse(
-        '$kOpenWeatherMapsUrl?lat=$_latitude&lon=$_longitude&appid=$kOpenWeatherMapsApiKey&units=$kOpenWeatherMapUnits');
-    _response = await http.get(_url);
-
-    if (_response.statusCode == 200) {
-      var decoded = jsonDecode(_response.body);
+  Future<WeatherData> getData(Uri url) async {
+    http.Response response = await http.get(url);
+    if (response.statusCode == 200) {
+      var decoded = jsonDecode(response.body);
       double temperatureAsDouble = decoded['main']['temp'];
       int weatherId = decoded['weather'][0]['id'];
-      print(weatherId);
       return WeatherData(
         temperature: temperatureAsDouble.toStringAsFixed(0),
         name: decoded['name'],
@@ -53,16 +44,4 @@ class Networking {
       return Icons.wb_cloudy;
     }
   }
-}
-
-class WeatherData {
-  final String temperature;
-  final String name;
-  final IconData icon;
-
-  WeatherData({
-    required this.temperature,
-    required this.name,
-    required this.icon,
-  });
 }

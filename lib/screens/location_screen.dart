@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:weather_report/services/networking.dart';
-import 'package:weather_report/services/location.dart';
 import 'city_screen.dart';
+import 'package:weather_report/services/weather.dart';
+import 'package:weather_report/services/weather_data.dart';
 
 class LocationScreen extends StatefulWidget {
   const LocationScreen({Key? key, required this.weatherData}) : super(key: key);
@@ -20,17 +20,9 @@ class _LocationScreenState extends State<LocationScreen> {
     _weatherData = widget.weatherData;
   }
 
-//TODO: refactor this repeat
   void updateWeatherData() async {
-    Location location = Location();
-    await location.getCurrentLocation();
-
-    Networking networking = Networking(
-      location.getLatitude(),
-      location.getLongitude(),
-    );
-
-    _weatherData = await networking.getData();
+    Weather weather = Weather();
+    _weatherData = await weather.getDataByLocation();
     setState(() {});
   }
 
@@ -40,20 +32,21 @@ class _LocationScreenState extends State<LocationScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: IconButton(
-          icon: Icon(Icons.explore),
+          icon: const Icon(Icons.explore),
           onPressed: () => updateWeatherData(),
         ),
         actions: [
           IconButton(
-            onPressed: () {
-              Navigator.push(
+            onPressed: () async {
+              _weatherData = await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => CityScreen(),
+                  builder: (context) => const CityScreen(),
                 ),
               );
+              setState(() {});
             },
-            icon: Icon(Icons.location_city),
+            icon: const Icon(Icons.location_city),
           )
         ],
         title: Text(
@@ -61,7 +54,9 @@ class _LocationScreenState extends State<LocationScreen> {
         ),
       ),
       body: Card(
+        margin: const EdgeInsets.all(30.0),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               '${_weatherData.temperature}°',

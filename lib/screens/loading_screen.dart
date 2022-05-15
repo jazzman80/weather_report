@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:weather_report/services/location.dart';
-import 'package:weather_report/services/networking.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:weather_report/services/weather_data.dart';
 import 'location_screen.dart';
+import 'package:weather_report/services/weather.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({Key? key}) : super(key: key);
@@ -12,16 +12,10 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  void getCurrentLocation() async {
-    Location location = Location();
-    await location.getCurrentLocation();
+  void getWeatherData() async {
+    Weather weather = Weather();
 
-    Networking networking = Networking(
-      location.getLatitude(),
-      location.getLongitude(),
-    );
-
-    WeatherData weatherData = await networking.getData();
+    WeatherData weatherData = await weather.getDataByLocation();
 
     Navigator.push(
       context,
@@ -36,7 +30,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
-    getCurrentLocation();
+    getWeatherData();
   }
 
   @override
